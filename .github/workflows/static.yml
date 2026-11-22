@@ -41,3 +41,401 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+        
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050b16">
+<title>NEXUS V3 | Personal Intelligence</title>
+<style>
+:root {
+ --bg:#050b16;
+ --panel:rgba(15,31,51,.82);
+ --line:rgba(100,190,255,.19);
+ --cyan:#61e8ed;
+ --blue:#579cff;
+ --text:#edf7ff;
+ --muted:#91a8c1;
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,Arial,sans-serif;min-height:100vh;
+ overflow-x:hidden;
+}
+body:before{
+ content:"";position:fixed;inset:0;pointer-events:none;
+ background:
+ radial-gradient(ellipse at 50% 0%,#10304c 0%,transparent 55%),
+ radial-gradient(ellipse at 90% 80%,#092a36 0%,transparent 40%);
+ z-index:-2;
+}
+#particles{
+ position:fixed;inset:0;width:100%;height:100%;
+ pointer-events:none;z-index:-1;
+}
+header{
+ position:sticky;top:0;z-index:5;
+ display:flex;justify-content:space-between;align-items:center;
+ padding:17px 5%;background:rgba(5,11,22,.88);
+ backdrop-filter:blur(18px);border-bottom:1px solid var(--line);
+}
+.logo{font-size:23px;letter-spacing:7px;font-weight:800}
+.live{font-size:11px;color:var(--cyan);letter-spacing:2px}
+main{max-width:1050px;margin:auto;padding:35px 18px 60px}
+.eyebrow{font-size:11px;letter-spacing:3px;color:var(--cyan)}
+h1{font-size:clamp(32px,7vw,57px);margin:13px 0}
+h2{font-size:18px;letter-spacing:1px}
+p{line-height:1.7}
+.muted{color:var(--muted)}
+.hero{text-align:center;padding:25px 0 35px}
+.core-wrap{
+ width:220px;height:220px;margin:30px auto;
+ display:grid;place-items:center;position:relative;
+}
+.core{
+ width:140px;height:140px;border-radius:50%;
+ background:
+ radial-gradient(circle at 35% 30%,#d7ffff 0%,#61e8ed 7%,
+ #2379bd 27%,#101b50 55%,#07101e 75%);
+ box-shadow:0 0 25px #35b9e9,0 0 70px #1673b6,
+ inset -15px -15px 35px #020814;
+ animation:float 4s ease-in-out infinite,glow 3s infinite alternate;
+ position:relative;
+}
+.core:after{
+ content:"";position:absolute;inset:-17px;border-radius:50%;
+ border:1px solid rgba(97,232,237,.65);
+ animation:spin 9s linear infinite;
+ box-shadow:0 0 25px rgba(97,232,237,.25);
+}
+.ring{
+ position:absolute;width:205px;height:205px;
+ border:1px solid rgba(87,156,255,.25);
+ border-radius:50%;transform:rotateX(68deg);
+ animation:spin 12s linear infinite;
+}
+.ring.two{
+ width:185px;height:185px;border-color:rgba(97,232,237,.4);
+ transform:rotateY(68deg);animation-direction:reverse;
+}
+@keyframes float{
+ 0%,100%{transform:translateY(0)}
+ 50%{transform:translateY(-13px)}
+}
+@keyframes glow{
+ from{filter:brightness(.85)}
+ to{filter:brightness(1.3)}
+}
+@keyframes spin{to{rotate:360deg}}
+.panel{
+ background:var(--panel);border:1px solid var(--line);
+ border-radius:18px;padding:23px;margin:18px 0;
+ backdrop-filter:blur(14px);
+ box-shadow:0 12px 35px rgba(0,0,0,.15);
+}
+.panel-head{
+ display:flex;justify-content:space-between;
+ align-items:center;gap:10px;
+}
+.tag{
+ font-size:10px;color:var(--cyan);
+ border:1px solid var(--line);padding:6px 9px;
+ border-radius:20px;letter-spacing:1px;
+}
+textarea,input{
+ width:100%;background:#081525;color:white;
+ border:1px solid #27435d;border-radius:12px;
+ padding:15px;font:inherit;outline:none;
+}
+textarea{min-height:110px;resize:vertical}
+textarea:focus,input:focus{border-color:var(--cyan)}
+button{
+ border:0;border-radius:10px;padding:13px 17px;
+ background:linear-gradient(110deg,#61e8ed,#579cff);
+ color:#04121d;font-weight:bold;cursor:pointer;
+ margin-top:12px;font-size:14px;
+}
+button.secondary{
+ background:#142b43;color:#eaf7ff;
+ border:1px solid var(--line);
+}
+button:active{transform:scale(.97)}
+.grid{
+ display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));
+ gap:12px;
+}
+.tile{
+ background:rgba(15,37,59,.8);
+ border:1px solid var(--line);border-radius:14px;
+ padding:17px;cursor:pointer;transition:.25s;
+ min-height:115px;
+}
+.tile:hover{
+ transform:translateY(-4px);
+ border-color:var(--cyan);
+ box-shadow:0 0 22px rgba(97,232,237,.12);
+}
+.tile .symbol{font-size:27px;color:var(--cyan)}
+.tile strong{display:block;margin-top:13px;font-size:14px}
+.result{
+ background:#081625;border:1px solid var(--line);
+ border-radius:12px;padding:16px;margin-top:17px;
+ white-space:pre-wrap;line-height:1.7;
+ min-height:35px;
+}
+.statusline{font-size:11px;color:var(--cyan)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.actions button{margin:0}
+.history-item{
+ padding:12px 0;border-bottom:1px solid var(--line);
+ color:var(--muted);font-size:13px;
+ overflow-wrap:anywhere;
+}
+footer{text-align:center;color:#657d98;padding:30px;font-size:11px}
+.hidden{display:none}
+@media(max-width:500px){
+ header{padding:15px}
+ main{padding:25px 14px}
+ .panel{padding:17px}
+ .core-wrap{transform:scale(.9)}
+}
+</style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+
+<header>
+ <div class="logo">NEXUS</div>
+ <div class="live">● SYSTEM ACTIVE</div>
+</header>
+
+<main>
+<section class="hero">
+ <div class="eyebrow">PERSONAL INTELLIGENCE SYSTEM / 03</div>
+ <div class="core-wrap">
+  <div class="ring"></div>
+  <div class="ring two"></div>
+  <div class="core"></div>
+ </div>
+ <div class="eyebrow">INTELLIGENCE INTERFACE</div>
+ <h1>Your world. One intelligence.</h1>
+ <p class="muted">Think bigger. Discover possibilities. Make informed decisions.</p>
+ <div class="statusline">NEXUS VERSION 3.0 · INTERFACE RUNNING</div>
+</section>
+
+<section class="panel">
+ <div class="panel-head">
+  <h2>01 / COMMAND CENTRE</h2>
+  <span class="tag">COMMAND INTERFACE</span>
+ </div>
+ <p class="muted">Tell NEXUS what you need. Your command is prepared for the intelligence engine.</p>
+ <textarea id="command" placeholder="Ask a question, explain a problem, or describe an idea..."></textarea>
+ <div class="actions">
+  <button onclick="execute()">Execute command →</button>
+  <button class="secondary" onclick="clearCommand()">Clear</button>
+  <button class="secondary" onclick="voiceInput()">🎙 Voice</button>
+ </div>
+ <div id="response" class="result" aria-live="polite">
+ NEXUS is ready for your command.
+ </div>
+ <p class="statusline" id="engineStatus">AI ENGINE: BACKEND CONNECTION REQUIRED</p>
+</section>
+
+<section class="panel">
+ <div class="panel-head">
+  <h2>02 / LIFE INTELLIGENCE</h2>
+  <span class="tag">SIX DOMAINS</span>
+ </div>
+ <p class="muted">An intelligence system designed for the whole of life.</p>
+ <div class="grid">
+  <div class="tile" onclick="choose('Money and opportunities')">
+   <div class="symbol">◈</div><strong>Money & Opportunities</strong>
+  </div>
+  <div class="tile" onclick="choose('Business and entrepreneurship')">
+   <div class="symbol">⌘</div><strong>Business & Enterprise</strong>
+  </div>
+  <div class="tile" onclick="choose('Education and learning')">
+   <div class="symbol">◎</div><strong>Learning & Education</strong>
+  </div>
+  <div class="tile" onclick="choose('Planning and productivity')">
+   <div class="symbol">◷</div><strong>Planning & Productivity</strong>
+  </div>
+  <div class="tile" onclick="choose('Everyday life assistance')">
+   <div class="symbol">◇</div><strong>Everyday Life</strong>
+  </div>
+  <div class="tile" onclick="choose('Ideas and problem solving')">
+   <div class="symbol">✧</div><strong>Ideas & Solutions</strong>
+  </div>
+  <div class="tile" onclick="choose('Research and information')">
+   <div class="symbol">⌕</div><strong>Research & Discovery</strong>
+  </div>
+  <div class="tile" onclick="choose('Personal development and goals')">
+   <div class="symbol">↗</div><strong>Personal Growth</strong>
+  </div>
+ </div>
+</section>
+
+<section class="panel">
+ <h2>03 / PERSONAL PROFILE</h2>
+ <p class="muted">Set your local session profile.</p>
+ <input id="profile" placeholder="Enter your preferred name">
+ <button onclick="saveProfile()">Save profile</button>
+ <p class="statusline" id="profileStatus"></p>
+</section>
+
+<section class="panel">
+ <h2>04 / VOICE INTERFACE</h2>
+ <p class="muted">Voice input uses browser speech recognition when supported. It does not yet provide private voice authentication.</p>
+ <button class="secondary" onclick="voiceInput()">🎙 Activate voice input</button>
+ <p class="statusline" id="voiceStatus">VOICE SYSTEM: STANDBY</p>
+</section>
+
+<section class="panel">
+ <div class="panel-head">
+  <h2>05 / COMMAND HISTORY</h2>
+  <span class="tag">LOCAL SESSION</span>
+ </div>
+ <div id="history" class="muted">No commands recorded yet.</div>
+ <button class="secondary" onclick="clearHistory()">Clear history</button>
+</section>
+
+<section class="panel">
+ <h2>06 / SYSTEM ARCHITECTURE</h2>
+ <div class="history-item">Interface: Active</div>
+ <div class="history-item">Dynamic visual engine: Active</div>
+ <div class="history-item">Command input: Active</div>
+ <div class="history-item">Browser voice input: Available where supported</div>
+ <div class="history-item">External AI intelligence engine: Not connected</div>
+ <div class="history-item">Secure user authentication: Not implemented</div>
+ <div class="history-item">Cloud memory and database: Not connected</div>
+</section>
+</main>
+
+<footer>
+ NEXUS · PERSONAL INTELLIGENCE SYSTEM · VERSION 3.0<br>
+ YOUR VISION. YOUR INTELLIGENCE. YOUR COMMAND.
+</footer>
+
+<script>
+// NEXUS DYNAMIC BACKGROUND
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let particles=[];
+function resize(){
+ canvas.width=innerWidth;
+ canvas.height=innerHeight;
+ particles=Array.from({length:55},()=>({
+  x:Math.random()*canvas.width,
+  y:Math.random()*canvas.height,
+  r:Math.random()*2+0.5,
+  dx:(Math.random()-.5)*.35,
+  dy:(Math.random()-.5)*.35
+ }));
+}
+function animate(){
+ ctx.clearRect(0,0,canvas.width,canvas.height);
+ particles.forEach(p=>{
+  p.x+=p.dx;p.y+=p.dy;
+  if(p.x<0||p.x>canvas.width)p.dx*=-1;
+  if(p.y<0||p.y>canvas.height)p.dy*=-1;
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  ctx.fillStyle='rgba(97,232,237,.65)';
+  ctx.fill();
+ });
+ requestAnimationFrame(animate);
+}
+addEventListener('resize',resize);
+resize();animate();
+
+// COMMAND CENTRE
+let history=[];
+function execute(){
+ const input=document.getElementById('command');
+ const value=input.value.trim();
+ const output=document.getElementById('response');
+ if(!value){
+  output.textContent='Please enter a command first.';
+  return;
+ }
+ history.unshift(value);
+ renderHistory();
+ output.textContent=
+ 'COMMAND RECEIVED\n\n'+value+
+ '\n\nYour request has been captured by the NEXUS interface. '+
+ 'The real AI engine is not yet connected. A protected backend '+
+ 'and AI model integration are required for intelligent answers.';
+ document.getElementById('engineStatus').textContent=
+ 'AI ENGINE: WAITING FOR SECURE BACKEND CONNECTION';
+}
+function choose(area){
+ document.getElementById('command').value=
+ 'Help me with '+area+'.';
+ document.getElementById('command').focus();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function clearCommand(){
+ document.getElementById('command').value='';
+ document.getElementById('response').textContent=
+ 'Command cleared. NEXUS is ready.';
+}
+function renderHistory(){
+ document.getElementById('history').innerHTML='';
+ history.slice(0,10).forEach(item=>{
+  const div=document.createElement('div');
+  div.className='history-item';
+  div.textContent=item;
+  document.getElementById('history').appendChild(div);
+ });
+}
+function clearHistory(){
+ history=[];
+ document.getElementById('history').textContent=
+ 'No commands recorded yet.';
+}
+
+// LOCAL SESSION PROFILE
+function saveProfile(){
+ const name=document.getElementById('profile').value.trim();
+ if(!name)return;
+ try{localStorage.setItem('nexus_profile',name)}catch(e){}
+ document.getElementById('profileStatus').textContent=
+ 'Profile saved on this browser: '+name;
+}
+try{
+ const saved=localStorage.getItem('nexus_profile');
+ if(saved){
+  document.getElementById('profile').value=saved;
+  document.getElementById('profileStatus').textContent=
+  'Local profile loaded: '+saved;
+ }
+}catch(e){}
+
+// BROWSER VOICE INPUT
+function voiceInput(){
+ const Recognition=window.SpeechRecognition||
+ window.webkitSpeechRecognition;
+ const status=document.getElementById('voiceStatus');
+ if(!Recognition){
+  status.textContent='Speech recognition is not supported by this browser.';
+  return;
+ }
+ const recognition=new Recognition();
+ recognition.lang='en-US';
+ recognition.onstart=()=>status.textContent='LISTENING...';
+ recognition.onresult=e=>{
+  document.getElementById('command').value=
+  e.results[0][0].transcript;
+  status.textContent='VOICE COMMAND CAPTURED';
+ };
+ recognition.onerror=()=>status.textContent='VOICE INPUT ERROR';
+ recognition.onend=()=>status.textContent+=' · STANDBY';
+ recognition.start();
+}
+</script>
+</body>
+</html>
+
