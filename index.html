@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#07111f">
+<title>NEXUS | Personal Intelligence</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#07111f;color:#eaf3ff;
+ font-family:Arial,sans-serif;min-height:100vh;
+}
+header{
+ padding:22px 20px;border-bottom:1px solid #20334b;
+ display:flex;justify-content:space-between;align-items:center;
+}
+.logo{font-size:25px;letter-spacing:5px;font-weight:bold}
+.status{color:#50e6ad;font-size:12px}
+main{padding:22px;max-width:850px;margin:auto}
+h1{font-size:30px;margin-bottom:8px}
+.muted{color:#8fa5bf}
+.panel{
+ background:#101e30;border:1px solid #263d58;
+ border-radius:16px;padding:20px;margin-top:20px;
+}
+h2{font-size:17px;margin-top:0}
+input,textarea{
+ width:100%;padding:14px;background:#07111f;
+ color:white;border:1px solid #38516d;
+ border-radius:9px;font-size:15px;margin:8px 0;
+}
+button{
+ background:#167cbd;color:white;border:0;
+ padding:13px 18px;border-radius:9px;
+ font-size:14px;cursor:pointer;
+}
+button:active{opacity:.7}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.task{
+ padding:12px;border-bottom:1px solid #263d58;
+ display:flex;justify-content:space-between;gap:10px;
+}
+.task button{padding:7px 10px}
+#response{color:#50e6ad;line-height:1.6}
+footer{text-align:center;padding:30px;color:#7890aa;font-size:12px}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">NEXUS</div>
+ <div class="status">● SYSTEM INITIALIZED</div>
+</header>
+
+<main>
+ <p class="muted">PERSONAL INTELLIGENCE SYSTEM</p>
+ <h1>Welcome to NEXUS.</h1>
+ <p class="muted">Your vision. Your intelligence. Your command.</p>
+
+ <section class="panel">
+  <h2>01 / Command Centre</h2>
+  <p class="muted">Enter a command or ask NEXUS to organize a task.</p>
+  <input id="command" placeholder="What would you like to do?">
+  <div class="actions">
+   <button onclick="runCommand()">Execute command</button>
+   <button onclick="speak()">Read response</button>
+  </div>
+  <p id="response">NEXUS interface ready. Awaiting your command.</p>
+ </section>
+
+ <section class="panel">
+  <h2>02 / Executive Tasks</h2>
+  <input id="taskInput" placeholder="Enter a new task">
+  <button onclick="addTask()">Add task</button>
+  <div id="tasks"></div>
+ </section>
+
+ <section class="panel">
+  <h2>03 / Personal Workspace</h2>
+  <textarea id="notes" rows="5"
+   placeholder="Write your ideas and plans here..."></textarea>
+  <button onclick="saveNotes()">Save notes</button>
+  <p id="saved" class="muted"></p>
+ </section>
+
+ <section class="panel">
+  <h2>04 / System Information</h2>
+  <p class="muted">Application: NEXUS</p>
+  <p class="muted">Version: 0.1.0</p>
+  <p class="muted">Environment: Web</p>
+  <p class="muted">AI connection: Not configured</p>
+  <p class="muted">Identity security: Not configured</p>
+ </section>
+</main>
+
+<footer>NEXUS — BUILDING THE FUTURE</footer>
+
+<script>
+const command = document.getElementById("command");
+const response = document.getElementById("response");
+
+function runCommand(){
+ const value=command.value.trim();
+ if(!value){
+  response.textContent="Please enter a command.";
+  return;
+ }
+ response.textContent=
+ "Command received: "+value+
+ ". The local command interface is working. AI connection is not yet configured.";
+}
+
+function speak(){
+ if(!("speechSynthesis" in window)){
+  response.textContent="Speech output is not supported in this browser.";
+  return;
+ }
+ speechSynthesis.speak(new SpeechSynthesisUtterance(response.textContent));
+}
+
+let tasks=JSON.parse(localStorage.getItem("nexusTasks")||"[]");
+
+function renderTasks(){
+ const area=document.getElementById("tasks");
+ area.innerHTML="";
+ tasks.forEach((task,index)=>{
+  const item=document.createElement("div");
+  item.className="task";
+  const label=document.createElement("span");
+  label.textContent=task;
+  const remove=document.createElement("button");
+  remove.textContent="Delete";
+  remove.onclick=()=>{
+   tasks.splice(index,1);
+   saveTasks();
+  };
+  item.append(label,remove);
+  area.appendChild(item);
+ });
+}
+
+function addTask(){
+ const field=document.getElementById("taskInput");
+ const value=field.value.trim();
+ if(!value)return;
+ tasks.push(value);
+ field.value="";
+ saveTasks();
+}
+
+function saveTasks(){
+ localStorage.setItem("nexusTasks",JSON.stringify(tasks));
+ renderTasks();
+}
+
+function saveNotes(){
+ localStorage.setItem("nexusNotes",
+  document.getElementById("notes").value);
+ document.getElementById("saved").textContent="Notes saved in this browser.";
+}
+
+document.getElementById("notes").value=
+ localStorage.getItem("nexusNotes")||"";
+
+renderTasks();
+</script>
+</body>
+</html>
